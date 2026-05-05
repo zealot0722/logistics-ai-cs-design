@@ -1,0 +1,33 @@
+# 防止意外 commit 到 public 的敏感檔案
+*.json
+!package.json
+.env
+.env.*
+*.workflow.json
+*-credentials.*
+secrets/
+private/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.vscode/
+.idea/
+
+# Python (若你之後加 Python tooling)
+__pycache__/
+*.pyc
+.pytest_cache/
+venv/
+.venv/
+
+# Node (若你之後加 Node tooling)
+node_modules/
+npm-debug.log*
+
+# Build artifacts
+dist/
+build/
+*.log

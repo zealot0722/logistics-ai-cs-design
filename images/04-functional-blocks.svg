@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 620" role="img">
+<title>物流客服 n8n 功能區塊架構</title>
+<desc>43 個節點分為 5 層職責，再聚合成資料準備、決策、執行紀錄三個 super-region。</desc>
+<style>
+  .ts { font-family: system-ui, sans-serif; font-size: 12px; font-weight: 400; fill: #444441; }
+  .th { font-family: system-ui, sans-serif; font-size: 14px; font-weight: 500; fill: #2C2C2A; }
+  .arr { stroke: #5F5E5A; stroke-width: 1.5; fill: none; }
+  .c-blue rect { fill: #E6F1FB; stroke: #185FA5; }
+  .c-blue text { fill: #042C53; }
+  .c-purple rect { fill: #EEEDFE; stroke: #534AB7; }
+  .c-purple text { fill: #26215C; }
+  .c-teal rect { fill: #E1F5EE; stroke: #0F6E56; }
+  .c-teal text { fill: #04342C; }
+  .c-coral rect { fill: #FAECE7; stroke: #993C1D; }
+  .c-coral text { fill: #4A1B0C; }
+  .c-amber rect { fill: #FAEEDA; stroke: #854F0B; }
+  .c-amber text { fill: #412402; }
+</style>
+<defs>
+<marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+<path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</marker>
+</defs>
+
+<text class="th" x="40" y="32">Functional blocks · 43 nodes in 5 layers</text>
+<text class="ts" x="40" y="50">Input → Preprocess → Decision → Output → Logging · 每層職責獨立可替換</text>
+
+<rect x="32" y="80" width="616" height="184" rx="14" fill="none" stroke="#888780" stroke-width="0.5" stroke-dasharray="2 4"/>
+<text class="ts" x="48" y="98" fill="#5F5E5A">Data preparation · 資料準備</text>
+
+<rect x="40" y="106" width="600" height="68" rx="10" fill="none" stroke="#0F6E56" stroke-width="0.5"/>
+<text class="th" x="56" y="124">L1 · Input layer (4 nodes)</text>
+<g class="c-teal"><rect x="56" y="134" width="138" height="32" rx="6" stroke-width="0.5"/><text class="ts" x="125" y="150" text-anchor="middle" dominant-baseline="central">LINE webhook</text></g>
+<g class="c-teal"><rect x="202" y="134" width="138" height="32" rx="6" stroke-width="0.5"/><text class="ts" x="271" y="150" text-anchor="middle" dominant-baseline="central">Schema validate</text></g>
+<g class="c-teal"><rect x="348" y="134" width="138" height="32" rx="6" stroke-width="0.5"/><text class="ts" x="417" y="150" text-anchor="middle" dominant-baseline="central">Rate limit</text></g>
+<g class="c-teal"><rect x="494" y="134" width="138" height="32" rx="6" stroke-width="0.5"/><text class="ts" x="563" y="150" text-anchor="middle" dominant-baseline="central">Dedup check</text></g>
+
+<rect x="40" y="186" width="600" height="68" rx="10" fill="none" stroke="#185FA5" stroke-width="0.5"/>
+<text class="th" x="56" y="204">L2 · Preprocess layer (8 nodes)</text>
+<g class="c-blue"><rect x="56" y="214" width="138" height="32" rx="6" stroke-width="0.5"/><text class="ts" x="125" y="230" text-anchor="middle" dominant-baseline="central">Tracking ID extract</text></g>
+<g class="c-blue"><rect x="202" y="214" width="138" height="32" rx="6" stroke-width="0.5"/><text class="ts" x="271" y="230" text-anchor="middle" dominant-baseline="central">User lookup · 72hr</text></g>
+<g class="c-blue"><rect x="348" y="214" width="138" height="32" rx="6" stroke-width="0.5"/><text class="ts" x="417" y="230" text-anchor="middle" dominant-baseline="central">Context aggregate</text></g>
+<g class="c-blue"><rect x="494" y="214" width="138" height="32" rx="6" stroke-width="0.5"/><text class="ts" x="563" y="230" text-anchor="middle" dominant-baseline="central">Prompt assemble</text></g>
+
+<line x1="340" y1="264" x2="340" y2="280" class="arr" marker-end="url(#arrow)"/>
+
+<rect x="32" y="284" width="616" height="120" rx="14" fill="none" stroke="#534AB7" stroke-width="0.8" stroke-dasharray="2 4"/>
+<text class="ts" x="48" y="302" fill="#534AB7">Decision · 決策（系統的核心）</text>
+
+<rect x="40" y="310" width="600" height="86" rx="10" fill="none" stroke="#534AB7" stroke-width="0.5"/>
+<text class="th" x="56" y="328">L3 · Decision layer (18 nodes) · LLM call + 8-layer gate</text>
+<g class="c-purple"><rect x="56" y="338" width="138" height="22" rx="6" stroke-width="0.5"/><text class="ts" x="125" y="349" text-anchor="middle" dominant-baseline="central">Groq API call</text></g>
+<g class="c-purple"><rect x="202" y="338" width="138" height="22" rx="6" stroke-width="0.5"/><text class="ts" x="271" y="349" text-anchor="middle" dominant-baseline="central">JSON parse</text></g>
+<g class="c-purple"><rect x="348" y="338" width="138" height="22" rx="6" stroke-width="0.5"/><text class="ts" x="417" y="349" text-anchor="middle" dominant-baseline="central">Confidence gate</text></g>
+<g class="c-purple"><rect x="494" y="338" width="138" height="22" rx="6" stroke-width="0.5"/><text class="ts" x="563" y="349" text-anchor="middle" dominant-baseline="central">Force-human</text></g>
+<g class="c-purple"><rect x="56" y="364" width="138" height="22" rx="6" stroke-width="0.5"/><text class="ts" x="125" y="375" text-anchor="middle" dominant-baseline="central">Tone branch</text></g>
+<g class="c-purple"><rect x="202" y="364" width="138" height="22" rx="6" stroke-width="0.5"/><text class="ts" x="271" y="375" text-anchor="middle" dominant-baseline="central">Contact count</text></g>
+<g class="c-purple"><rect x="348" y="364" width="138" height="22" rx="6" stroke-width="0.5"/><text class="ts" x="417" y="375" text-anchor="middle" dominant-baseline="central">Reply gen</text></g>
+<g class="c-purple"><rect x="494" y="364" width="138" height="22" rx="6" stroke-width="0.5"/><text class="ts" x="563" y="375" text-anchor="middle" dominant-baseline="central">Priority flag</text></g>
+
+<line x1="340" y1="396" x2="340" y2="412" class="arr" marker-end="url(#arrow)"/>
+
+<rect x="32" y="416" width="616" height="124" rx="14" fill="none" stroke="#888780" stroke-width="0.5" stroke-dasharray="2 4"/>
+<text class="ts" x="48" y="434" fill="#5F5E5A">Execution · 執行與紀錄</text>
+
+<rect x="40" y="442" width="290" height="92" rx="10" fill="none" stroke="#993C1D" stroke-width="0.5"/>
+<text class="th" x="56" y="460">L4 · Output (8 nodes)</text>
+<text class="ts" x="56" y="478">三條 path · 各自 failure handling</text>
+<g class="c-coral"><rect x="56" y="490" width="124" height="32" rx="6" stroke-width="0.5"/><text class="ts" x="118" y="506" text-anchor="middle" dominant-baseline="central">Auto reply</text></g>
+<g class="c-coral"><rect x="186" y="490" width="138" height="32" rx="6" stroke-width="0.5"/><text class="ts" x="255" y="506" text-anchor="middle" dominant-baseline="central">Human handoff</text></g>
+
+<rect x="350" y="442" width="290" height="92" rx="10" fill="none" stroke="#854F0B" stroke-width="0.5"/>
+<text class="th" x="366" y="460">L5 · Logging (5 nodes)</text>
+<text class="ts" x="366" y="478">Decision · session · feedback</text>
+<g class="c-amber"><rect x="366" y="490" width="138" height="32" rx="6" stroke-width="0.5"/><text class="ts" x="435" y="506" text-anchor="middle" dominant-baseline="central">Supabase insert</text></g>
+<g class="c-amber"><rect x="510" y="490" width="124" height="32" rx="6" stroke-width="0.5"/><text class="ts" x="572" y="506" text-anchor="middle" dominant-baseline="central">Session update</text></g>
+
+<text class="ts" x="40" y="572">每層只依賴上一層的輸出。改 prompt 動 L2、改門檻動 L3、加 logging 欄位動 L5</text>
+<text class="ts" x="40" y="592">— 改動範圍可預測，不會牽動整個系統</text>
+</svg>

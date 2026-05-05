@@ -1,0 +1,102 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 920" role="img">
+<title>物流客服 n8n 43 節點完整 workflow</title>
+<desc>43 個節點的完整拓撲，分為 4 欄垂直排列，含主流程、決策分支與三個出口路徑。</desc>
+<style>
+  .ts { font-family: system-ui, sans-serif; font-size: 12px; font-weight: 400; fill: #444441; }
+  .th { font-family: system-ui, sans-serif; font-size: 14px; font-weight: 500; fill: #2C2C2A; }
+  .arr { stroke: #5F5E5A; stroke-width: 1.5; fill: none; }
+  .c-blue rect { fill: #E6F1FB; stroke: #185FA5; }
+  .c-blue text { fill: #042C53; }
+  .c-purple rect { fill: #EEEDFE; stroke: #534AB7; }
+  .c-purple text { fill: #26215C; }
+  .c-teal rect { fill: #E1F5EE; stroke: #0F6E56; }
+  .c-teal text { fill: #04342C; }
+  .c-coral rect { fill: #FAECE7; stroke: #993C1D; }
+  .c-coral text { fill: #4A1B0C; }
+  .c-amber rect { fill: #FAEEDA; stroke: #854F0B; }
+  .c-amber text { fill: #412402; }
+</style>
+<defs>
+<marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+<path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</marker>
+</defs>
+
+<text class="th" x="40" y="32">43-node workflow topology</text>
+<text class="ts" x="40" y="50">主流程從上而下 · 三個出口分流 · 所有路徑收斂至 Supabase</text>
+
+<text class="th" x="100" y="84" text-anchor="middle">Input</text>
+<text class="ts" x="100" y="98" text-anchor="middle" fill="#5F5E5A">L1 · 4 nodes</text>
+
+<g class="c-teal"><rect x="40" y="108" width="120" height="30" rx="6" stroke-width="0.5"/><text class="ts" x="100" y="123" text-anchor="middle" dominant-baseline="central">1 · LINE webhook</text></g>
+<g class="c-teal"><rect x="40" y="142" width="120" height="30" rx="6" stroke-width="0.5"/><text class="ts" x="100" y="157" text-anchor="middle" dominant-baseline="central">2 · Verify sig</text></g>
+<g class="c-teal"><rect x="40" y="176" width="120" height="30" rx="6" stroke-width="0.5"/><text class="ts" x="100" y="191" text-anchor="middle" dominant-baseline="central">3 · Parse event</text></g>
+<g class="c-teal"><rect x="40" y="210" width="120" height="30" rx="6" stroke-width="0.5"/><text class="ts" x="100" y="225" text-anchor="middle" dominant-baseline="central">4 · Dedup check</text></g>
+
+<text class="th" x="240" y="84" text-anchor="middle">Preprocess</text>
+<text class="ts" x="240" y="98" text-anchor="middle" fill="#5F5E5A">L2 · 8 nodes</text>
+
+<g class="c-blue"><rect x="180" y="108" width="120" height="30" rx="6" stroke-width="0.5"/><text class="ts" x="240" y="123" text-anchor="middle" dominant-baseline="central">5 · Tracking regex</text></g>
+<g class="c-blue"><rect x="180" y="142" width="120" height="30" rx="6" stroke-width="0.5"/><text class="ts" x="240" y="157" text-anchor="middle" dominant-baseline="central">6 · Lookup by ID</text></g>
+<g class="c-blue"><rect x="180" y="176" width="120" height="30" rx="6" stroke-width="0.5"/><text class="ts" x="240" y="191" text-anchor="middle" dominant-baseline="central">7 · Fallback userId</text></g>
+<g class="c-blue"><rect x="180" y="210" width="120" height="30" rx="6" stroke-width="0.5"/><text class="ts" x="240" y="225" text-anchor="middle" dominant-baseline="central">8 · 72hr window</text></g>
+<g class="c-blue"><rect x="180" y="244" width="120" height="30" rx="6" stroke-width="0.5"/><text class="ts" x="240" y="259" text-anchor="middle" dominant-baseline="central">9 · Contact count</text></g>
+<g class="c-blue"><rect x="180" y="278" width="120" height="30" rx="6" stroke-width="0.5"/><text class="ts" x="240" y="293" text-anchor="middle" dominant-baseline="central">10 · History join</text></g>
+<g class="c-blue"><rect x="180" y="312" width="120" height="30" rx="6" stroke-width="0.5"/><text class="ts" x="240" y="327" text-anchor="middle" dominant-baseline="central">11 · Prompt build</text></g>
+<g class="c-blue"><rect x="180" y="346" width="120" height="30" rx="6" stroke-width="0.5"/><text class="ts" x="240" y="361" text-anchor="middle" dominant-baseline="central">12 · Sanitize</text></g>
+
+<text class="th" x="380" y="84" text-anchor="middle">Decision</text>
+<text class="ts" x="380" y="98" text-anchor="middle" fill="#5F5E5A">L3 · 18 nodes</text>
+
+<g class="c-purple"><rect x="320" y="108" width="120" height="30" rx="6" stroke-width="0.5"/><text class="ts" x="380" y="123" text-anchor="middle" dominant-baseline="central">13 · Groq call</text></g>
+<g class="c-purple"><rect x="320" y="142" width="120" height="30" rx="6" stroke-width="0.5"/><text class="ts" x="380" y="157" text-anchor="middle" dominant-baseline="central">14 · JSON parse</text></g>
+<g class="c-purple"><rect x="320" y="176" width="120" height="30" rx="6" stroke-width="0.5"/><text class="ts" x="380" y="191" text-anchor="middle" dominant-baseline="central">15 · Schema check</text></g>
+<g class="c-purple"><rect x="320" y="210" width="120" height="30" rx="6" stroke-width="0.8"/><text class="ts" x="380" y="225" text-anchor="middle" dominant-baseline="central">16 · L1 gate</text></g>
+<g class="c-purple"><rect x="320" y="244" width="120" height="30" rx="6" stroke-width="0.8"/><text class="ts" x="380" y="259" text-anchor="middle" dominant-baseline="central">17 · L2 gate</text></g>
+<g class="c-purple"><rect x="320" y="278" width="120" height="30" rx="6" stroke-width="0.8"/><text class="ts" x="380" y="293" text-anchor="middle" dominant-baseline="central">18 · L3 gate</text></g>
+<g class="c-purple"><rect x="320" y="312" width="120" height="30" rx="6" stroke-width="0.8"/><text class="ts" x="380" y="327" text-anchor="middle" dominant-baseline="central">19 · L4 gate</text></g>
+<g class="c-purple"><rect x="320" y="346" width="120" height="30" rx="6" stroke-width="0.8"/><text class="ts" x="380" y="361" text-anchor="middle" dominant-baseline="central">20 · L5 gate</text></g>
+<g class="c-purple"><rect x="320" y="380" width="120" height="30" rx="6" stroke-width="0.8"/><text class="ts" x="380" y="395" text-anchor="middle" dominant-baseline="central">21 · L6 gate</text></g>
+
+<text class="th" x="520" y="84" text-anchor="middle">Exit</text>
+<text class="ts" x="520" y="98" text-anchor="middle" fill="#5F5E5A">L4 · 8 nodes</text>
+
+<g class="c-coral"><rect x="460" y="210" width="120" height="30" rx="6" stroke-width="0.5"/><text class="ts" x="520" y="225" text-anchor="middle" dominant-baseline="central">22 · Human (L1)</text></g>
+<g class="c-coral"><rect x="460" y="244" width="120" height="30" rx="6" stroke-width="0.5"/><text class="ts" x="520" y="259" text-anchor="middle" dominant-baseline="central">23 · Human (L2)</text></g>
+<g class="c-coral"><rect x="460" y="278" width="120" height="30" rx="6" stroke-width="0.5"/><text class="ts" x="520" y="293" text-anchor="middle" dominant-baseline="central">24 · Human (L3)</text></g>
+<g class="c-amber"><rect x="460" y="312" width="120" height="30" rx="6" stroke-width="0.5"/><text class="ts" x="520" y="327" text-anchor="middle" dominant-baseline="central">25 · Tone flag</text></g>
+<g class="c-amber"><rect x="460" y="346" width="120" height="30" rx="6" stroke-width="0.5"/><text class="ts" x="520" y="361" text-anchor="middle" dominant-baseline="central">26 · Urgent (L5)</text></g>
+<g class="c-coral"><rect x="460" y="380" width="120" height="30" rx="6" stroke-width="0.5"/><text class="ts" x="520" y="395" text-anchor="middle" dominant-baseline="central">27 · Human (L6)</text></g>
+<g class="c-teal"><rect x="320" y="430" width="120" height="32" rx="6" stroke-width="0.5"/><text class="ts" x="380" y="446" text-anchor="middle" dominant-baseline="central">28 · L8 · Auto reply</text></g>
+
+<line x1="100" y1="240" x2="100" y2="500" stroke="#888780" stroke-width="0.5" stroke-dasharray="2 4"/>
+<line x1="240" y1="376" x2="240" y2="500" stroke="#888780" stroke-width="0.5" stroke-dasharray="2 4"/>
+<line x1="380" y1="462" x2="380" y2="500" stroke="#888780" stroke-width="0.5" stroke-dasharray="2 4"/>
+<line x1="520" y1="412" x2="520" y2="500" stroke="#888780" stroke-width="0.5" stroke-dasharray="2 4"/>
+
+<line x1="160" y1="123" x2="180" y2="123" class="arr" marker-end="url(#arrow)"/>
+<line x1="300" y1="123" x2="320" y2="123" class="arr" marker-end="url(#arrow)"/>
+<line x1="440" y1="225" x2="460" y2="225" stroke="#A32D2D" stroke-width="1"/>
+<line x1="440" y1="259" x2="460" y2="259" stroke="#A32D2D" stroke-width="1"/>
+<line x1="440" y1="293" x2="460" y2="293" stroke="#A32D2D" stroke-width="1"/>
+<line x1="440" y1="327" x2="460" y2="327" stroke="#BA7517" stroke-width="1"/>
+<line x1="440" y1="361" x2="460" y2="361" stroke="#BA7517" stroke-width="1"/>
+<line x1="440" y1="395" x2="460" y2="395" stroke="#A32D2D" stroke-width="1"/>
+
+<rect x="40" y="510" width="600" height="120" rx="10" fill="none" stroke="#888780" stroke-width="0.5"/>
+<text class="th" x="56" y="532">Common downstream · nodes 29–43</text>
+<text class="ts" x="56" y="552">Auto reply path (29–33) · Human handoff path (34–36) · Urgent path (37–40)</text>
+<text class="ts" x="56" y="572">Logging path (41–43)：Supabase insert + session update + cleanup</text>
+<text class="ts" x="56" y="600">所有出口最終收斂到 Supabase logging。</text>
+<text class="ts" x="56" y="616">主圖只畫到節點 28，後續 15 個節點為三條 path 的 post-processing。</text>
+
+<rect x="40" y="650" width="600" height="80" rx="10" fill="none" stroke="#888780" stroke-width="0.5" stroke-dasharray="2 4"/>
+<text class="th" x="56" y="672">Legend</text>
+<line x1="56" y1="690" x2="86" y2="690" stroke="#A32D2D" stroke-width="1"/>
+<text class="ts" x="94" y="694">Hard route to human · 強制轉人工（不可繞過）</text>
+<line x1="56" y1="710" x2="86" y2="710" stroke="#BA7517" stroke-width="1"/>
+<text class="ts" x="94" y="714">Risk flag · 仍走自動但加註標記</text>
+
+<text class="ts" x="40" y="760">設計原則：fail to safety · 任何 gate 失敗、JSON 不合 schema、技術錯誤皆預設轉人工</text>
+<text class="ts" x="40" y="780">每個 gate 獨立 · 可單獨調整 threshold · 可單獨 disable 做 A/B testing</text>
+</svg>

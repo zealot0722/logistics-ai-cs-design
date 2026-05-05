@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 820" role="img">
+<title>物流客服 8 層決策邏輯</title>
+<desc>從 LLM 分類結果開始，依序通過 8 道 gate 的決策邏輯，每道 gate 失敗時導向人工或加上風險旗標。</desc>
+<style>
+  .ts { font-family: system-ui, sans-serif; font-size: 12px; font-weight: 400; fill: #444441; }
+  .th { font-family: system-ui, sans-serif; font-size: 14px; font-weight: 500; fill: #2C2C2A; }
+  .arr { stroke: #5F5E5A; stroke-width: 1.5; fill: none; }
+  .c-blue rect { fill: #E6F1FB; stroke: #185FA5; }
+  .c-blue text { fill: #042C53; }
+  .c-purple rect { fill: #EEEDFE; stroke: #534AB7; }
+  .c-purple text { fill: #26215C; }
+  .c-teal rect { fill: #E1F5EE; stroke: #0F6E56; }
+  .c-teal text { fill: #04342C; }
+  .c-coral rect { fill: #FAECE7; stroke: #993C1D; }
+  .c-coral text { fill: #4A1B0C; }
+  .c-amber rect { fill: #FAEEDA; stroke: #854F0B; }
+  .c-amber text { fill: #412402; }
+</style>
+<defs>
+<marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+<path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</marker>
+<marker id="arrow-red" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+<path d="M2 1L8 5L2 9" fill="none" stroke="#A32D2D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</marker>
+<marker id="arrow-amber" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+<path d="M2 1L8 5L2 9" fill="none" stroke="#BA7517" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</marker>
+</defs>
+
+<text class="th" x="40" y="32">8-layer decision · Fail to safety</text>
+<text class="ts" x="40" y="50">每道 gate 失敗時，預設轉人工而非繼續自動化</text>
+
+<g class="c-purple">
+<rect x="240" y="76" width="200" height="56" rx="8" stroke-width="0.5"/>
+<text class="th" x="340" y="98" text-anchor="middle" dominant-baseline="central">LLM output</text>
+<text class="ts" x="340" y="116" text-anchor="middle" dominant-baseline="central">6-field structured JSON</text>
+</g>
+
+<line x1="340" y1="132" x2="340" y2="156" class="arr" marker-end="url(#arrow)"/>
+
+<g class="c-blue"><rect x="200" y="156" width="280" height="40" rx="8" stroke-width="0.5"/><text class="th" x="340" y="176" text-anchor="middle" dominant-baseline="central">L1 · Classification fail?</text></g>
+<line x1="480" y1="176" x2="540" y2="176" stroke="#A32D2D" stroke-width="1.5" marker-end="url(#arrow-red)"/>
+<line x1="340" y1="196" x2="340" y2="216" class="arr" marker-end="url(#arrow)"/>
+
+<g class="c-blue"><rect x="200" y="216" width="280" height="40" rx="8" stroke-width="0.5"/><text class="th" x="340" y="236" text-anchor="middle" dominant-baseline="central">L2 · force_human flag?</text></g>
+<line x1="200" y1="236" x2="140" y2="236" stroke="#A32D2D" stroke-width="1.5" marker-end="url(#arrow-red)"/>
+<line x1="340" y1="256" x2="340" y2="276" class="arr" marker-end="url(#arrow)"/>
+
+<g class="c-blue"><rect x="200" y="276" width="280" height="40" rx="8" stroke-width="0.5"/><text class="th" x="340" y="296" text-anchor="middle" dominant-baseline="central">L3 · confidence &lt; 0.5?</text></g>
+<line x1="480" y1="296" x2="540" y2="296" stroke="#A32D2D" stroke-width="1.5" marker-end="url(#arrow-red)"/>
+<line x1="340" y1="316" x2="340" y2="336" class="arr" marker-end="url(#arrow)"/>
+
+<g class="c-blue"><rect x="200" y="336" width="280" height="40" rx="8" stroke-width="0.5"/><text class="th" x="340" y="356" text-anchor="middle" dominant-baseline="central">L4 · tone = angry?</text></g>
+<line x1="200" y1="356" x2="140" y2="356" stroke="#BA7517" stroke-width="1.5" marker-end="url(#arrow-amber)"/>
+<line x1="340" y1="376" x2="340" y2="396" class="arr" marker-end="url(#arrow)"/>
+
+<g class="c-blue"><rect x="200" y="396" width="280" height="40" rx="8" stroke-width="0.5"/><text class="th" x="340" y="416" text-anchor="middle" dominant-baseline="central">L5 · contact_count ≥ 3?</text></g>
+<line x1="480" y1="416" x2="540" y2="416" stroke="#BA7517" stroke-width="1.5" marker-end="url(#arrow-amber)"/>
+<line x1="340" y1="436" x2="340" y2="456" class="arr" marker-end="url(#arrow)"/>
+
+<g class="c-blue"><rect x="200" y="456" width="280" height="40" rx="8" stroke-width="0.5"/><text class="th" x="340" y="476" text-anchor="middle" dominant-baseline="central">L6 · reply gen fail?</text></g>
+<line x1="200" y1="476" x2="140" y2="476" stroke="#A32D2D" stroke-width="1.5" marker-end="url(#arrow-red)"/>
+<line x1="340" y1="496" x2="340" y2="516" class="arr" marker-end="url(#arrow)"/>
+
+<g class="c-blue"><rect x="200" y="516" width="280" height="40" rx="8" stroke-width="0.5"/><text class="th" x="340" y="536" text-anchor="middle" dominant-baseline="central">L7 · frustrated · contact = 2?</text></g>
+<line x1="480" y1="536" x2="540" y2="536" stroke="#BA7517" stroke-width="1.5" marker-end="url(#arrow-amber)"/>
+<line x1="340" y1="556" x2="340" y2="580" class="arr" marker-end="url(#arrow)"/>
+
+<g class="c-teal">
+<rect x="200" y="580" width="280" height="56" rx="8" stroke-width="0.5"/>
+<text class="th" x="340" y="602" text-anchor="middle" dominant-baseline="central">L8 · Auto reply</text>
+<text class="ts" x="340" y="620" text-anchor="middle" dominant-baseline="central">通過所有 gate · 推送 LINE</text>
+</g>
+
+<g class="c-coral"><rect x="540" y="156" width="100" height="40" rx="8" stroke-width="0.5"/><text class="ts" x="590" y="176" text-anchor="middle" dominant-baseline="central">Human</text></g>
+<g class="c-coral"><rect x="40" y="216" width="100" height="40" rx="8" stroke-width="0.5"/><text class="ts" x="90" y="236" text-anchor="middle" dominant-baseline="central">Human</text></g>
+<g class="c-coral"><rect x="540" y="276" width="100" height="40" rx="8" stroke-width="0.5"/><text class="ts" x="590" y="296" text-anchor="middle" dominant-baseline="central">Human</text></g>
+<g class="c-amber"><rect x="40" y="336" width="100" height="40" rx="8" stroke-width="0.5"/><text class="ts" x="90" y="356" text-anchor="middle" dominant-baseline="central">情緒標記</text></g>
+<g class="c-amber"><rect x="540" y="396" width="100" height="40" rx="8" stroke-width="0.5"/><text class="ts" x="590" y="416" text-anchor="middle" dominant-baseline="central">Urgent</text></g>
+<g class="c-coral"><rect x="40" y="456" width="100" height="40" rx="8" stroke-width="0.5"/><text class="ts" x="90" y="476" text-anchor="middle" dominant-baseline="central">Human</text></g>
+<g class="c-amber"><rect x="540" y="516" width="100" height="40" rx="8" stroke-width="0.5"/><text class="ts" x="590" y="536" text-anchor="middle" dominant-baseline="central">優先旗標</text></g>
+
+<rect x="40" y="676" width="600" height="120" rx="8" fill="none" stroke="#888780" stroke-width="0.5" stroke-dasharray="4 4"/>
+<text class="th" x="56" y="700">Legend</text>
+<line x1="56" y1="720" x2="86" y2="720" stroke="#A32D2D" stroke-width="1.5"/>
+<text class="ts" x="94" y="724">Hard route to human · 強制轉人工</text>
+<line x1="56" y1="742" x2="86" y2="742" stroke="#BA7517" stroke-width="1.5"/>
+<text class="ts" x="94" y="746">Risk flag · 仍走自動但加註標記</text>
+<text class="ts" x="56" y="770">L1–L3 「能不能自動」 · L4–L7 「該不該自動」 · L8 實際執行</text>
+<text class="ts" x="56" y="788">所有結果寫入 Supabase 作為 logging 與 knowledge feedback 基礎</text>
+</svg>

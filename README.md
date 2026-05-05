@@ -33,8 +33,7 @@ This repository is a **sanitized design walkthrough**, not a public runnable
 demo. It is intended to let a reviewer understand the architecture, decision
 logic, failure handling, and implementation shape without exposing production
 credentials, customer data, prompt text, webhook URLs, or internal logistics
-system schema
-details.
+system schema details.
 
 What can be reviewed here:
 
